@@ -15,8 +15,12 @@ private:
 public:
 	Snake();
 	void freshScreen();
+	void drawEdge();
+	void drawBody();
+	void goForward();
 	void kbInput();
 	void startGame();
 };
 
 static vector<char> buffer(100);
+static vector<vector<char>> gameSpace(100, vector<char>(100,' '));
