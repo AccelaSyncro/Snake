@@ -6,12 +6,13 @@
 #include <chrono>
 #include <thread>
 #include "WinBase.h"
+#include "Game.h"
 using namespace std;
 constexpr const int cgheight = 30;
 constexpr const int cgwidth = 80;
 static unsigned char gameMap[cgheight * cgwidth] = { 0 };
 static wchar_t charMap[100] = {0};
-class Snake
+class Snake : public Game
 {
 private:
 	int px;
@@ -27,7 +28,7 @@ public:
 	void drawBody();
 	void goForward();
 	void kbInput();
-	void startGame();
+	virtual void startGame() override;
 };
 
 static vector<char> buffer(100);
