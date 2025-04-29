@@ -7,14 +7,22 @@ void Snake::startGame()
 	charMap[EMPTY] = L' ';
 	charMap[BODY] = L'o';
 	charMap[WALL] = L'#';
-
+	constexpr int FPS = 15;
 	this->width = cgwidth;
 	this->height = cgheight;
 	drawEdge();
-	while (true) {
-		freshScreen();
+	const auto frameDuration = std::chrono::milliseconds(1000 / FPS);
+	bool gameOver = false;
+	while (!gameOver) {
+		auto frameStart = std::chrono::steady_clock::now();
+		freshScreen();      // 优化后的刷新函数
 		kbInput();
-		Sleep(200);
+		auto frameEnd = std::chrono::steady_clock::now();
+		auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(frameEnd - frameStart);
+		if (elapsed < frameDuration) {
+			
+			std::this_thread::sleep_for(frameDuration - elapsed);  // 保持稳定帧率
+		}
 	}
 }
 Snake::Snake()

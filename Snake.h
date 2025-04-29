@@ -3,8 +3,9 @@
 #include <vector>
 #include <conio.h>
 #include <Windows.h>
+#include <chrono>
+#include <thread>
 #include "WinBase.h"
-
 using namespace std;
 constexpr const int cgheight = 30;
 constexpr const int cgwidth = 80;
