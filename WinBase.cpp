@@ -14,6 +14,11 @@ WinBase::WinBase(const size_t& gameWidth, const size_t& gameHeight, const size_t
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL);
 	SetConsoleActiveScreenBuffer(hConsole);
+
+	CONSOLE_CURSOR_INFO cursorInfo;
+	GetConsoleCursorInfo(hConsole, &cursorInfo); // 获取当前光标属性
+	cursorInfo.bVisible = FALSE;                // 隐藏光标
+	SetConsoleCursorInfo(hConsole, &cursorInfo); // 应用设置
 }
 
 WinBase::~WinBase()
@@ -78,4 +83,5 @@ void WinBase::clearScreen()
 
 	// 重置光标到左上角
 	SetConsoleCursorPosition(hConsole, home);
+
 }
