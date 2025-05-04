@@ -1,5 +1,6 @@
 #include "WinBase.h"
 #include <iostream>
+#include "Game.h"
 
 WinBase::WinBase(const size_t& gameWidth, const size_t& gameHeight, const size_t& screenWidth,const size_t& screenHeight)
 	:gameWidth(gameWidth),gameHeight(gameHeight),screenWidth(screenWidth),screenHeight(screenHeight)

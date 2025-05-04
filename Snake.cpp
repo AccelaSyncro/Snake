@@ -1,17 +1,19 @@
 #include "Snake.h"
 enum element {
-	EMPTY=0,BODY=1,WALL=9
+	EMPTY=0,BODY=1,FOOD=2,WALL=9
 };
 void Snake::startGame()
 {
 	charMap[EMPTY] = L' ';
 	charMap[BODY] = L'o';
 	charMap[WALL] = L'#';
+	charMap[FOOD] = L'x';
 	constexpr int FPS = 15;
 	this->width = cgwidth;
 	this->height = cgheight;
 	drawEdge();
-	const auto frameDuration = std::chrono::milliseconds(1000 / FPS);
+	generateFood();
+	const auto frameDuration = std::chrono::milliseconds(2000 / FPS);
 	while (!gameOver) {
 		auto frameStart = std::chrono::steady_clock::now();
 		freshScreen();      // 优化后的刷新函数
@@ -19,13 +21,15 @@ void Snake::startGame()
 		auto frameEnd = std::chrono::steady_clock::now();
 		auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(frameEnd - frameStart);
 		if (elapsed < frameDuration) {
-			
 			std::this_thread::sleep_for(frameDuration - elapsed);  // 保持稳定帧率
 		}
+		if (gameOver) return;
 	}
+	cout << "Game Over !" << endl;
 }
 Snake::Snake()
 {
+	srand(time(NULL));
 	gameOver = false;
 	this->wb=WinBase();
 	width = cgwidth;
@@ -59,10 +63,19 @@ void Snake::drawEdge()
 		}
 	}
 }
+
 void Snake::drawBody()
 {
 	int vx = px, vy = py;
-	for (int i = 0; i <= length; i++) {
+	for (int i = 1; i <= length; i++) {
+		if (vy == 0 || vx == 0 || vy == height-1 || vx == width-1) {
+			gameOver = true; 
+			return;
+		}
+		if (gameMap[vy * width + vx] == FOOD) {
+			buffer.push_back(buffer[length++]);
+			generateFood();
+		}
 		switch (buffer[i])
 		{
 		case 'w':
@@ -85,8 +98,7 @@ void Snake::drawBody()
 
 void Snake::goForward()
 {
-	gameMap[py * width + px] = EMPTY;      //画面上删除尾部
-
+	gameMap[py * width + px] = EMPTY;      //屏幕上删除尾部
 	//尾部路径追踪
 	switch (buffer[1])
 	{
@@ -105,22 +117,32 @@ void Snake::goForward()
 	default:
 		break;
 	}
-	buffer.erase(buffer.begin() + 1);             //蛇身上删除尾部
+	buffer.erase(buffer.begin()+1);             //蛇身上删除尾部
 }
 
 void Snake::kbInput()
 {
+	if (gameOver) return;
 	if (_kbhit()) {
 		char ch = _getch();
 		if (ch == 'w' || ch == 'a' || ch == 's' || ch == 'd') {
 			buffer.push_back(ch);
 			goForward();
+		}else {
+			buffer.push_back(buffer[length]);
+			goForward();
 		}
-	}
-	else {
+	}else {
 		buffer.push_back(buffer[length]);
 		goForward();
 	}
+}
+
+void Snake::generateFood()
+{
+	int ry = rand() % (height-1) + 1;
+	int rx = rand() % (width - 1) + 1;
+	gameMap[ry * width + rx] = FOOD;
 }
 
 
