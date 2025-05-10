@@ -15,6 +15,6 @@ public:
 	WinBase(const size_t& gameWidth = 80, const size_t& gameHeight = 30, const size_t& screenWidth = 100, const size_t& screenHeight = 100);
 	~WinBase();
 	void clearScreen();
-	void display(const unsigned char* gameMap,const wchar_t*charMap, const size_t& gameWidth = 80, const size_t& gameHeight = 30);
+	void display(const unsigned char* gameMap,const wchar_t*charMap);
 };
 

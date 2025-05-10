@@ -11,7 +11,7 @@
 #include "Game.h"
 using namespace std;
 constexpr const int cgheight = 30;
-constexpr const int cgwidth = 80;
+constexpr const int cgwidth = 50;
 static unsigned char gameMap[cgheight * cgwidth] = { 0 };
 static wchar_t charMap[10] = {0};
 class Snake : public Game

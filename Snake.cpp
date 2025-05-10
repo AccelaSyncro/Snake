@@ -1,22 +1,25 @@
 #include "Snake.h"
+#include <thread>
 enum element {
 	EMPTY=0,BODY=1,FOOD=2,WALL=9
 };
 void Snake::startGame()
 {
-	charMap[EMPTY] = L' ';
-	charMap[BODY] = L'o';
-	charMap[WALL] = L'#';
-	charMap[FOOD] = L'x';
+	charMap[EMPTY] = L'\u3000';
+	charMap[BODY] = L'蛇';
+	charMap[WALL] = L'墙';
+	charMap[FOOD] = L'果';
+	//charMap[EMPTY] = L' ';
+	//charMap[BODY] = L'o';
+	//charMap[WALL] = L'#';
+	//charMap[FOOD] = L'x';
 	constexpr int FPS = 15;
-	this->width = cgwidth;
-	this->height = cgheight;
 	drawEdge();
 	generateFood();
 	const auto frameDuration = std::chrono::milliseconds(2000 / FPS);
 	while (!gameOver) {
 		auto frameStart = std::chrono::steady_clock::now();
-		freshScreen();      // 优化后的刷新函数
+		freshScreen();
 		kbInput();
 		auto frameEnd = std::chrono::steady_clock::now();
 		auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(frameEnd - frameStart);
@@ -31,9 +34,9 @@ Snake::Snake()
 {
 	srand(time(NULL));
 	gameOver = false;
-	this->wb=WinBase();
 	width = cgwidth;
 	height = cgheight;
+	this->wb = WinBase(width, height);
 	px = width / 2;
 	py = height / 2;
 	length = 2;

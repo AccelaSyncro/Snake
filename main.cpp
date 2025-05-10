@@ -3,4 +3,5 @@
 int main() {
 	App app;
 	app.run(new Snake);
+	return 0;
 }

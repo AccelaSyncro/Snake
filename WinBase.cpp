@@ -5,6 +5,11 @@
 WinBase::WinBase(const size_t& gameWidth, const size_t& gameHeight, const size_t& screenWidth,const size_t& screenHeight)
 	:gameWidth(gameWidth),gameHeight(gameHeight),screenWidth(screenWidth),screenHeight(screenHeight)
 {
+	//HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	//DWORD mode = 0;
+	//GetConsoleMode(hOut, &mode);
+	//SetConsoleMode(hOut, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+
 	//this->gameMap =  new unsigned char[gameWidth * gameHeight];
 	this->screen = new wchar_t[screenWidth * screenHeight];
 	for (int i = 0; i < screenWidth * screenHeight; i++) screen[i] = L' ';
@@ -28,7 +33,7 @@ WinBase::~WinBase()
 }
 
 
-void WinBase::display(const unsigned char* gameMap, const wchar_t* charMap, const size_t& gameWidth, const size_t& gameHeight) {
+void WinBase::display(const unsigned char* gameMap, const wchar_t* charMap) {
 	//int screenWidth = 100, screenHeight = 100;
 	// 4. 设置控制台窗口大小
 	
