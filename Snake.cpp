@@ -70,6 +70,7 @@ void Snake::drawBody()
 {
 	int vx = px, vy = py;
 	for (int i = 1; i <= length; i++) {
+		//边界检测，如果撞墙，游戏结束
 		if (vy == 0 || vx == 0 || vy == height-1 || vx == width-1) {
 			gameOver = true; 
 			return;
@@ -95,6 +96,10 @@ void Snake::drawBody()
 		default:
 			break;
 		}
+	}
+	if (gameMap[vy * width + vx] == BODY) {
+		gameOver = true;
+		return;
 	}
 }
 
