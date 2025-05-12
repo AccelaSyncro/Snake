@@ -28,7 +28,6 @@ void Snake::startGame()
 		}
 		if (gameOver) return;
 	}
-	cout << "Game Over !" << endl;
 }
 Snake::Snake()
 {
@@ -144,7 +143,9 @@ void Snake::kbInput()
 void Snake::generateFood()
 {
 	int ry = rand() % (height-1) + 1;
+	ry == height - 1 ? ry - 1 : ry;
 	int rx = rand() % (width - 1) + 1;
+	rx == width - 1 ? rx - 1 : rx;
 	gameMap[ry * width + rx] = FOOD;
 }
 
