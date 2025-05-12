@@ -3,6 +3,9 @@
 enum element {
 	EMPTY=0,BODY=1,FOOD=2,WALL=9
 };
+enum direction {
+	UP='w',DOWN='s',LEFT='a',RIGHT='d'
+};
 void Snake::startGame()
 {
 	charMap[EMPTY] = L'\u3000';
@@ -132,10 +135,14 @@ void Snake::kbInput()
 	if (gameOver) return;
 	if (_kbhit()) {
 		char ch = _getch();
-		if (ch == 'w' || ch == 'a' || ch == 's' || ch == 'd') {
+		if (ch == UP && buffer[length] != DOWN ||
+			ch == LEFT && buffer[length] != RIGHT ||
+			ch == DOWN && buffer[length] != UP ||
+			ch == RIGHT && buffer[length] != LEFT) {
 			buffer.push_back(ch);
 			goForward();
-		}else {
+		}
+		else {
 			buffer.push_back(buffer[length]);
 			goForward();
 		}
